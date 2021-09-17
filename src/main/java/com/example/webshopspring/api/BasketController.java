@@ -28,12 +28,12 @@ public class BasketController {
 
     @PostMapping
     public String addProductToBasket(){
-        return "Product added to basket";
+        return "Product added to the basket";
     }
 
     @DeleteMapping
     public String deleteProductFromBasket(){
-        return "Product removed from basket";
+        return "Product removed from the basket";
     }
 
     @PutMapping
