@@ -28,7 +28,7 @@ public class BasketController {
 
     @PostMapping
     public String addProductToBasket(){
-        return "Product added to dsdqwqdq basket";
+        return "Product dwqdq to dsdqwqdq basket";
     }
 
     @DeleteMapping
