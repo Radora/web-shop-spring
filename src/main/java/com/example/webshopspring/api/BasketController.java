@@ -33,7 +33,7 @@ public class BasketController {
 
     @DeleteMapping
     public String deleteProductFromBasket(){
-        return "Product removed from the basket";
+        return "Product removed from  basket";
     }
 
     @PutMapping
