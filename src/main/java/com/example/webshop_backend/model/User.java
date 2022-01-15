@@ -47,5 +47,6 @@ public class User {
 
     @NotBlank
     @Column(nullable = false)
+    //private String role = "ROLE_USER";
     private String usertype; //{Admin,Customer,Guest};
 }
