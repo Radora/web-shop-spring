@@ -20,35 +20,37 @@ public class BasketController {
         this.basketService = basketService;
     }
 
-    @GetMapping("/basket/")
-    public List<Basket> getAllBaskets(){
+    @GetMapping("/baskets")
+    public List<Basket> getAllBaskets() {
         return basketService.getBasket();
     }
+
     @GetMapping("/basket/{id}")
-    public Optional<Basket> getAllBaskets(@PathVariable Integer id){
+    public Optional<Basket> getAllBaskets(@PathVariable Integer id) {
         return basketService.findById(id);
     }
+
     @PostMapping("/basket/new")
-    public String addProductToBasket(@RequestBody @Valid Basket basket){
+    public String addProductToBasket(@RequestBody @Valid Basket basket) {
         basketService.saveBasket(basket);
         return "redirect:/basket";
     }
 
     @DeleteMapping("/basket/{id}")
-    public ResponseEntity<Map<String, Boolean>> deleteProductFromBasket(@PathVariable Integer id){
-      //  User user = UserService.findById(id)
-      //  .orElseThrow(() -> new ResourceNotFoundException("User does not exist with id :" + id));
-      basketService.deleteBasket(id);
-      Map<String, Boolean> response = new HashMap<>();
-      response.put("deleted", Boolean.TRUE);
-      return ResponseEntity.ok(response);
+    public ResponseEntity<Map<String, Boolean>> deleteProductFromBasket(@PathVariable Integer id) {
+        //  User user = UserService.findById(id)
+        //  .orElseThrow(() -> new ResourceNotFoundException("User does not exist with id :" + id));
+        basketService.deleteBasket(id);
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("deleted", Boolean.TRUE);
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/basket/{id}")
-    public ResponseEntity<Basket> updateBasket(@PathVariable Integer id, @RequestBody @Valid Basket basketEdited){
+    public ResponseEntity<Basket> updateBasket(@PathVariable Integer id, @RequestBody @Valid Basket basketEdited) {
         Basket basket = basketService.findById(id)
-        //User user = userRepository.findById(id)
-        .orElseThrow(() -> new NullPointerException("Basket does not exist with id :" + id));
+                //User user = userRepository.findById(id)
+                .orElseThrow(() -> new NullPointerException("Basket does not exist with id :" + id));
         basket.setProducts(basketEdited.getProducts()); //tut es ersetzten oder hinzufügen?
         basket.setProductQuantity(basketEdited.getProductQuantity());
         Basket updatedBasket = basketService.updateBasket(basket);
