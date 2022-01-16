@@ -30,7 +30,7 @@ public class UserController {
         return userService.findById(id);
     }
 
-    @PostMapping("/users/new")
+    @PostMapping("/register")
     public String addUser(@RequestBody @Valid User user){
         userService.saveUser(user);
         return "redirect:/users";

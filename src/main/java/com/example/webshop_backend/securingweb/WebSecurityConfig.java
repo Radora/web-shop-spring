@@ -27,6 +27,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/")
                 .permitAll();
 
+        http // "/(home)" accessible by everybody
+                .authorizeRequests()
+                .antMatchers("/register")
+                .permitAll();
+
+        http // "/(home)" accessible by everybody
+                .authorizeRequests()
+                .antMatchers("/registerSuccess")
+                .permitAll();
+
         http // "/admin" accessible by user with ROLE_ADMIN
                 .authorizeRequests()
                 .antMatchers("/admin")
@@ -43,7 +53,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest()
                 .authenticated();
 
-
         http //CSRF abschalten
                 .csrf()
                 .disable();
@@ -53,13 +62,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/login")
                 .permitAll();
 
-        http //Login einrichten
+        http //Logout einrichten
                 .logout()
                 .logoutUrl("/logout")
                 .permitAll();
-
     }
-
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
