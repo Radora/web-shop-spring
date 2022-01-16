@@ -45,7 +45,10 @@ public class User {
     @Column(nullable = false)
     private String address;
 
+    private boolean active;
+
     @NotBlank
     @Column(nullable = false)
-    private String usertype; //{Admin,Customer,Guest};
+    //private String role = "ROLE_USER";
+    private String roles; //{Admin,Customer,Guest};
 }
