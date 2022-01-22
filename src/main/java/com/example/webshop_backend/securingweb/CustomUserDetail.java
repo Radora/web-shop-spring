@@ -1,6 +1,7 @@
-package com.example.webshop_backend.model;
+package com.example.webshop_backend.securingweb;
 
 
+import com.example.webshop_backend.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,18 +11,18 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class MyUserDetails implements UserDetails {
+public class CustomUserDetail implements UserDetails {
 
     private String userName;
     private String password;
     private boolean active;
     private List<GrantedAuthority> authorities;
 
-    public MyUserDetails(String userName) {
+    public CustomUserDetail(String userName) {
         this.userName = userName;
     }
 
-    public MyUserDetails(User user) {
+    public CustomUserDetail(User user) {
         this.userName = user.getUsername();
         this.password = user.getPassword();
         this.active = user.isActive();

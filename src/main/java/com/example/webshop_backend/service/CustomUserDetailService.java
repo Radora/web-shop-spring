@@ -1,9 +1,8 @@
 package com.example.webshop_backend.service;
 
-import com.example.webshop_backend.model.MyUserDetails;
+import com.example.webshop_backend.securingweb.CustomUserDetail;
 import com.example.webshop_backend.model.User;
 import com.example.webshop_backend.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,10 +12,13 @@ import java.util.Optional;
 
 
 @Service
-public class CustomUserDetailsService implements UserDetailsService {
+public class CustomUserDetailService implements UserDetailsService {
 
-    @Autowired
-    UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    public CustomUserDetailService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
@@ -24,7 +26,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         user.orElseThrow(() -> new UsernameNotFoundException(userName + " not found!"));
 
-        return user.map(MyUserDetails::new).get();
+        return user.map(CustomUserDetail::new).get();
 
     }
 }

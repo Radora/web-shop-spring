@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+          crossorigin="anonymous"
+  />
+  <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"
+  />
+  <link
+          href="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css"
+          rel="stylesheet"
+  />
+  <link rel="stylesheet" href="../css/style.css" />
+  <title>Register</title>
+</head>
+
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-md bg-dark navbar-dark py-3 fixed-top">
+  <div class="container">
+    <a href="/" class="navbar-brand">Matt & Rado</a>
+
+    <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navmenu"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navmenu">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a href="/index.html" class="nav-link">Home</a>
+        </li>
+        <li class="nav-item">
+          <a href="products.html" class="nav-link">Products</a>
+        </li>
+        <li class="nav-item">
+          <a href="login" class="nav-link">Login</a>
+        </li>
+        <li class="nav-item">
+          <a href="./logout" class="nav-link">Logout</a>
+        </li>
+        <li class="nav-item">
+          <a href="register" class="nav-link">Register</a>
+        </li>
+        <li class="nav-item">
+          <a href="impressum.html" class="nav-link">Legal Notice</a>
+        </li>
+        <li class="nav-item">
+          <a href="help.html" class="nav-link">Help</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<!-- Navbar end -->
+
+<!-- Register -->
+<main class="form-signin">
+  <form th:action="@{/process_register}" method="post"; th:object="${user}">
+    <h1  class="h3 mb-3 fw-normal">Please register</h1>
+    <div class="form-floating">
+      <input type="text" class="form-control" id="firstname" placeholder="Firstname">
+      <label for="floatingPassword">Firstname</label>
+    </div>
+    <div class="form-floating">
+      <input type="text" class="form-control" id="surname" placeholder="Surname">
+      <label for="floatingPassword">Surname</label>
+    </div>
+    <div class="form-floating">
+      <input type="text" class="form-control" id="username" placeholder="username">
+      <label for="floatingInput">username</label>
+    </div>
+    <div class="form-floating">
+      <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+      <label for="floatingInput">Email address</label>
+    </div>
+    <div class="form-floating">
+      <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+      <label for="floatingPassword">Password</label>
+    </div>
+
+    <button class="w-100 btn btn-lg btn-primary" type="submit">Register</button>
+  </form>
+</main>
+<!-- Register end -->
+
+<!-- Footer -->
+<footer id="footer">
+  <a href="impressum.html" class="link-warning">Legal Notice</a>
+  <a href="help.html" class="link-warning">Help</a>
+</footer>
+
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+        crossorigin="anonymous"
+></script>
+</body>
+</html>

@@ -31,7 +31,7 @@ public class User {
 
     @NotBlank
     @Column(nullable = false, unique = true)
-    private String username; //einmalig? valid?
+    private String username;
 
     @Column(nullable = false, unique = true)
     @Email
@@ -47,7 +47,6 @@ public class User {
 
     private boolean active;
 
-    @NotBlank
     @Column(nullable = false)
     //private String role = "ROLE_USER";
     private String roles; //{Admin,Customer,Guest};
