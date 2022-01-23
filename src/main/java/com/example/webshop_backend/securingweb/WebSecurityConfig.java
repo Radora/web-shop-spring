@@ -15,12 +15,15 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
 
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
 
 
     private final CustomUserDetailService customUserDetailService;
@@ -41,7 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http // "/(home)" accessible by everybody
                 .authorizeRequests()
-                .antMatchers("/register")
+                .antMatchers("templates/register.html")
                 .permitAll();
 
         http // "/(home)" accessible by everybody
@@ -72,7 +75,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http //Login einrichten
                 .formLogin()
-                .loginProcessingUrl("/login")
+                .loginProcessingUrl("templates/login.html")
                 .permitAll();
 
         http //Logout einrichten
@@ -118,6 +121,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(authenticationProvider());
     }
+
     public UsernamePasswordAuthenticationFilter usernamePasswordAuthenticationFilter()
             throws Exception {
         JsonUsernamePasswordAuthenticationFilter authenticationFilter
@@ -126,6 +130,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return authenticationFilter;
     }
 
-
-
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:63342", "http://localhost:63343"));
+        configuration.setAllowedMethods(Arrays.asList("HEAD", "GET", "POST", "PUT", "DELETE"));
+        configuration.setAllowCredentials(true);
+        configuration.setAllowedHeaders(Arrays.asList("*"));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
 }

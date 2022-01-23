@@ -21,10 +21,17 @@ public class HomeResource {
     public String home() {
         return ("index");
     }
+
     @GetMapping("/register")
     public String register(Model model){
         model.addAttribute("user" , new User());
         return ("register");
+    }
+
+    @GetMapping("/login")
+    public String login(Model model){
+        model.addAttribute("user" , new User());
+        return ("login");
     }
 
     @PostMapping("/process_register")
