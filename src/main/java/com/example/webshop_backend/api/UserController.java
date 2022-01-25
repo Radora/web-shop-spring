@@ -20,6 +20,7 @@ public class UserController {
         this.userService = userService;
     }
 
+    @CrossOrigin(origins = "*")
     @GetMapping("/users")
     public List<User> getAllUsers(){
        return userService.getUser();
@@ -33,7 +34,7 @@ public class UserController {
     @PostMapping("/register")
     public String addUser(@RequestBody @Valid User user){
         userService.saveUser(user);
-        return "redirect:/users";
+        return "New user added!";
     }
 
     @DeleteMapping("/users/{id}")
