@@ -37,7 +37,6 @@ public class User {
     @Email
     private String email;
 
-    @JsonIgnore
     @Column(nullable = false)
     private String password;
 
