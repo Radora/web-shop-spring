@@ -1,8 +1,10 @@
 package com.example.webshop_backend.api;
 
 import com.example.webshop_backend.model.User;
+import com.example.webshop_backend.repository.UserRepository;
 import com.example.webshop_backend.service.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -15,6 +17,8 @@ import java.util.Optional;
 public class UserController {
 
     private final UserService userService;
+    private  UserRepository userRepository;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public UserController(UserService userService) {
         this.userService = userService;
@@ -32,11 +36,9 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String addUser(@RequestBody @Valid User user){
-        userService.saveUser(user);
-        return "New user added!";
+    public  String addUser(@RequestBody @Valid User user) {
+        return userService.saveUser(user);
     }
-
     @DeleteMapping("/users/{id}")
     public ResponseEntity<Map<String, Boolean>> deleteUser(@PathVariable Integer id){
         //  User user = UserService.findById(id)
