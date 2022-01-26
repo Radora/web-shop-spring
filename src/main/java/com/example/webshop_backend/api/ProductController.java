@@ -33,6 +33,8 @@ public class ProductController {
         productService.saveProduct(product);
         return "redirect:/products";
     }
+
+    @CrossOrigin(origins = "*")
     @DeleteMapping("/products/{id}")
     public ResponseEntity<Map<String, Boolean>> deleteProduct(@PathVariable Integer id){
         //  Product product = ProductService.findById(id)
