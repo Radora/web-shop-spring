@@ -6,45 +6,35 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Arrays;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class CustomUserDetail implements UserDetails {
+public class CustomUserDetails implements UserDetails {
 
-    private String userName;
-    private String password;
-    private boolean active;
-    private List<GrantedAuthority> authorities;
 
-    public CustomUserDetail(String userName) {
-        this.userName = userName;
-    }
+    private final User user;
 
-    public CustomUserDetail(User user) {
-        this.userName = user.getUsername();
-        this.password = user.getPassword();
-        this.active = user.isActive();
-        this.authorities = Arrays.stream(user.getRoles().split(","))
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
-
+    public CustomUserDetails(User user) {
+        this.user = user;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<SimpleGrantedAuthority> authorities = new LinkedList<>();
+        authorities.add(new SimpleGrantedAuthority(this.user.getRoles()));
         return authorities;
-    }
+    };
+
 
     @Override
     public String getPassword() {
-        return password;
+        return this.user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return userName;
+        return this.user.getUsername();
     }
 
     @Override
@@ -64,6 +54,6 @@ public class CustomUserDetail implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return active;
+        return this.user.isActive();
     }
 }
