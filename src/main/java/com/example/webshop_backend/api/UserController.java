@@ -39,6 +39,8 @@ public class UserController {
     public  String addUser(@RequestBody @Valid User user) {
         return userService.saveUser(user);
     }
+
+    @CrossOrigin(origins = "*")
     @DeleteMapping("/users/{id}")
     public ResponseEntity<Map<String, Boolean>> deleteUser(@PathVariable Integer id){
         //  User user = UserService.findById(id)
