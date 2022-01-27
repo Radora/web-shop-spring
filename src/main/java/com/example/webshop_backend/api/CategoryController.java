@@ -1,3 +1,4 @@
+/*
 package com.example.webshop_backend.api;
 
 import com.example.webshop_backend.model.Category;
@@ -56,3 +57,4 @@ public class CategoryController {
         return ResponseEntity.ok(updatedCategory);
     }
 }
+*/

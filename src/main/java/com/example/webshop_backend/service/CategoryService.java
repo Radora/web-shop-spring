@@ -1,4 +1,4 @@
-package com.example.webshop_backend.service;
+/*package com.example.webshop_backend.service;
 
 import com.example.webshop_backend.model.Category;
 import com.example.webshop_backend.repository.CategoryRepository;
@@ -30,4 +30,4 @@ public class CategoryService {
     public void deleteCategory(int id){
         categoryRepository.deleteById(id);
     }
-}
+}*/

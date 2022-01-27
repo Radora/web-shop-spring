@@ -1,4 +1,4 @@
-package com.example.webshop_backend.model;
+/*package com.example.webshop_backend.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,4 +27,4 @@ public class Category {
     @NotNull
     private String name;
 
-}
+}*/

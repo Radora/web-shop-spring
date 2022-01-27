@@ -1,13 +1,11 @@
-package com.example.webshop_backend.service;
+package com.example.webshop_backend.security;
 
 import com.example.webshop_backend.model.User;
 import com.example.webshop_backend.repository.UserRepository;
-import com.example.webshop_backend.securingweb.CustomUserDetails;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
 
 @Service
 public class CustomUserDetailService implements UserDetailsService {

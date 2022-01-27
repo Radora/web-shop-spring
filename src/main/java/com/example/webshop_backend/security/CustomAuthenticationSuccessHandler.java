@@ -1,4 +1,4 @@
-package com.example.webshop_backend.securingweb;
+package com.example.webshop_backend.security;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -8,7 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+public class CustomAuthenticationSuccessHandler
+        extends SimpleUrlAuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(
             HttpServletRequest request,
