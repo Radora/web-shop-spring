@@ -1,7 +1,7 @@
 package com.example.webshop_backend.service;
 
 import com.example.webshop_backend.model.Basket;
-import com.example.webshop_backend.model.Category;
+//import com.example.webshop_backend.model.Category;
 import com.example.webshop_backend.repository.BasketRepository;
 import org.springframework.stereotype.Service;
 

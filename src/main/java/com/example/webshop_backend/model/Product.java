@@ -19,24 +19,25 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @ManyToOne
-    @JoinColumn(name = "categoryid",insertable = false,updatable = false)
+    /*@ManyToOne
+    @JoinColumn(name = "categoryid",insertable = false,updatable = false)*/
 
-    @NotEmpty
-    @Valid
-    private Category category;
+    //@NotEmpty
+    private String category;
 
-    @NotBlank
-    @NotNull
+    //@NotBlank
+    //@NotNull
     private String name;
+
     //private int categoryid;
-    @NotBlank
-    @NotNull
+
+    //@NotBlank
+    //@NotNull
     private String description;
 
-    @Positive
+    //@Positive
     private float price;
 
-    @Positive
+    //@Positive
     private int product_stock;
 }

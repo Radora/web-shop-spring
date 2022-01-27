@@ -1,3 +1,4 @@
+/*
 package com.example.webshop_backend.repository;
 
 import com.example.webshop_backend.model.Category;
@@ -7,3 +8,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Integer> {
 }
+*/
