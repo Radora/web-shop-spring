@@ -74,7 +74,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         .and() // "/home" accessible by everybody
                 .authorizeRequests()
-                .antMatchers("/home", "/login", "/logout")
+                .antMatchers("/home", "/login", "/logout","/register")
                 .permitAll()
         .and() // "/admin" accessible by user with ROLE_ADMIN
                 .authorizeRequests()
