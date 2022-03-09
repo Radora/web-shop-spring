@@ -31,9 +31,11 @@ public class UserService {
        userRepository.save(user);
         return "new User added";
     }
-    public User updateUser(User user){
-        userRepository.save(user);
-        return user;
+    public User updateUser(User userToUpdate){
+        String passwordEncoded = bCryptPasswordEncoder.encode(userToUpdate.getPassword());
+        userToUpdate.setPassword(passwordEncoded);
+        userRepository.save(userToUpdate);
+        return userToUpdate;
     }
     public List<User> getUser(){
         return (List<User>) userRepository.findAll();
