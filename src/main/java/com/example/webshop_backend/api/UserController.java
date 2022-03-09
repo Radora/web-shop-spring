@@ -35,6 +35,11 @@ public class UserController {
         return userService.findById(id);
     }
 
+    @GetMapping("/users/getUsername/{username}")
+    public User getUsername(@PathVariable @Valid String username){
+        return userService.findByUsername(username);
+    }
+
     @PostMapping("/register")
     public  String addUser(@RequestBody @Valid User user) {
         return userService.saveUser(user);
