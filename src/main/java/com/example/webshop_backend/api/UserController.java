@@ -57,6 +57,7 @@ public class UserController {
         user.setFirstname(userEdited.getFirstname());
         user.setSurname(userEdited.getSurname());
         user.setUsername(userEdited.getUsername());
+        user.setPassword(userEdited.getPassword());
         user.setEmail(userEdited.getEmail());
         user.setAddress(userEdited.getAddress());
         User updatedUser = userService.updateUser(user);
