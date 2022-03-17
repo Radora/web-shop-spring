@@ -1,6 +1,5 @@
 package com.example.webshop_backend.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,6 +17,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private long id;
 
     @NotBlank
@@ -49,4 +49,8 @@ public class User {
     @Column(nullable = false)
     //private String role = "ROLE_USER";
     private String roles; //{Admin,Customer,Guest};
+
+    @OneToOne(cascade = { CascadeType.PERSIST, CascadeType.REMOVE})
+    @JoinColumn(name = "basket_id")
+    private Basket basket;
 }
