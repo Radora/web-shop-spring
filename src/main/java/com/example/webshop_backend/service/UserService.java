@@ -1,6 +1,7 @@
 package com.example.webshop_backend.service;
 
 import com.example.webshop_backend.model.User;
+import com.example.webshop_backend.model.Basket;
 import com.example.webshop_backend.repository.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,7 @@ public class UserService {
        user.setRoles("ROLE_USER");
        user.setEmail(userToCreate.getEmail());
        user.setAddress(userToCreate.getAddress());
+       user.setBasket(new Basket());
        user.setActive(true);
        String passwordEncoded = bCryptPasswordEncoder.encode(userToCreate.getPassword());
        user.setPassword(passwordEncoded);

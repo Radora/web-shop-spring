@@ -16,12 +16,15 @@ public class BasketService {
     public BasketService(BasketRepository basketRepository) {
         this.basketRepository = basketRepository;
     }
-    public void saveBasket(Basket basket){
+    public void saveBasket(Basket basketToCreate){
+        Basket basket = new Basket();
+        basket.setBasketItems(basketToCreate.getBasketItems());
         basketRepository.save(basket);
     }
-    public Basket updateBasket(Basket basket){
-       basketRepository.save(basket);
-        return basket;
+    public Basket updateBasket(Basket basketToUpdate){
+        basketToUpdate.setBasketItems(basketToUpdate.getBasketItems());
+        basketRepository.save(basketToUpdate);
+        return basketToUpdate;
     }
     public List<Basket> getBasket(){
         return basketRepository.findAll();

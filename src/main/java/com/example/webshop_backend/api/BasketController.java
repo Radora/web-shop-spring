@@ -49,10 +49,10 @@ public class BasketController {
     @PutMapping("/basket/{id}")
     public ResponseEntity<Basket> updateBasket(@PathVariable Integer id, @RequestBody @Valid Basket basketEdited) {
         Basket basket = basketService.findById(id)
-                //User user = userRepository.findById(id)
-                .orElseThrow(() -> new NullPointerException("Basket does not exist with id :" + id));
-        basket.setProducts(basketEdited.getProducts()); //tut es ersetzten oder hinzufügen?
-        basket.setProductQuantity(basketEdited.getProductQuantity());
+        //User user = userRepository.findById(id)
+        .orElseThrow(() -> new NullPointerException("Basket does not exist with id :" + id));
+        basket.setBasketItems(basketEdited.getBasketItems()); //tut es ersetzten oder hinzufügen? // check if item is already in basket
+        //basket.setProductQuantity(basketEdited.getProductQuantity());
         Basket updatedBasket = basketService.updateBasket(basket);
         return ResponseEntity.ok(updatedBasket);
     }
