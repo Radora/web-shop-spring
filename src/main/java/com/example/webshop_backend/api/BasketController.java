@@ -2,9 +2,15 @@ package com.example.webshop_backend.api;
 
 import com.example.webshop_backend.model.Basket;
 import com.example.webshop_backend.model.BasketItem;
+import com.example.webshop_backend.model.Product;
+import com.example.webshop_backend.repository.BasketItemRepository;
 import com.example.webshop_backend.repository.BasketRepository;
+import com.example.webshop_backend.repository.ProductRepository;
+import com.example.webshop_backend.repository.UserRepository;
 import com.example.webshop_backend.service.BasketService;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -14,14 +20,15 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
+@AllArgsConstructor
 public class BasketController {
 
     private final BasketService basketService;
-    private BasketRepository basketRepository;
+    private final BasketRepository basketRepository;
+    private final ProductRepository productRepository;
+    private final UserRepository userRepository;
+    private final BasketItemRepository basketItemRepository;
 
-    public BasketController(BasketService basketService) {
-        this.basketService = basketService;
-    }
 
     @GetMapping("/baskets")
     public List<Basket> getAllBaskets() {
@@ -48,15 +55,25 @@ public class BasketController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/basket/update/{basket_id}")
-    public Basket updateBasket(@PathVariable Integer basket_id, @RequestBody @Valid Basket basketEdited) {
-        Basket basket = basketService.findById(basket_id)
+    @PostMapping("/basket/update/{product_id}")
+    public String updateBasket(@PathVariable Integer product_id) {
+        final String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        Basket basket = userRepository.findByUsername(userName).getBasket();
+        Optional<Product> product = productRepository.findById(product_id);
 
-        //User user = userRepository.findById(id)
-        .orElseThrow(() -> new NullPointerException("Basket does not exist with id :" + basket_id));
+        List<BasketItem> basketItems = basket.getBasketItems();
+
         BasketItem basketItem = new BasketItem();
-        //basket.setBasketItems(basketEdited.getBasketItems());
-        return basketService.updateBasket(basketEdited);
-    }
 
+        basketItem.setBasket(basket);
+        basketItem.setProduct(product.get());
+        basketItem.setProductQuantity(1);
+
+        basketItems.add(basketItem);
+
+        basketItemRepository.save(basketItem);
+        basketRepository.save(basket);
+
+       return "Product added to Basket";
+    }
 }

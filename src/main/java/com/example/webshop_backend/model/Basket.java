@@ -1,5 +1,7 @@
 package com.example.webshop_backend.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 
 import java.util.*;
@@ -13,11 +15,8 @@ public class Basket {
     @Column(name = "basket_id")
     private int id;
 
-//    @OneToOne
-//    @JoinColumn(name = "userid",insertable = false,updatable = false)
-//    private User user;
-
     @OneToMany(mappedBy = "basket", cascade = { CascadeType.PERSIST, CascadeType.REMOVE})
+    @JsonManagedReference
     private List<BasketItem> basketItems = new ArrayList<>();
 
     public Basket() {

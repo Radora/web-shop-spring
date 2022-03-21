@@ -1,6 +1,6 @@
 package com.example.webshop_backend.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -36,5 +36,9 @@ public class BasketItem {
     public BasketItem(BasketItem basketItem) {
         this.product = basketItem.getProduct();
         this.productQuantity = basketItem.getProductQuantity();
+    }
+    @JsonBackReference
+    public Basket getBasket(){
+        return basket;
     }
 }

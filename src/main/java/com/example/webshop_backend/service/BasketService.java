@@ -3,13 +3,8 @@ package com.example.webshop_backend.service;
 import com.example.webshop_backend.model.Basket;
 //import com.example.webshop_backend.model.Category;
 import com.example.webshop_backend.model.BasketItem;
-import com.example.webshop_backend.model.Product;
-import com.example.webshop_backend.model.User;
+import com.example.webshop_backend.repository.BasketItemRepository;
 import com.example.webshop_backend.repository.BasketRepository;
-import com.example.webshop_backend.security.CustomUserDetails;
-import com.sun.xml.bind.v2.TODO;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,28 +14,28 @@ import java.util.Optional;
 public class BasketService {
 
     private final BasketRepository basketRepository;
+    private final BasketItemRepository basketItemRepository;
 
-    public BasketService(BasketRepository basketRepository) {
+    public BasketService(BasketRepository basketRepository, BasketItemRepository basketItemRepository) {
         this.basketRepository = basketRepository;
+        this.basketItemRepository = basketItemRepository;
     }
     public String saveBasket(Basket basketToCreate){
         BasketItem basketItem = new BasketItem();
         basketItem.setId(basketItem.getId());
         basketItem.setProductQuantity(basketItem.getProductQuantity());
         basketItem.setProduct(basketItem.getProduct());
-//        basketItem.setBasket(basketItem.getBasket());
+        basketItemRepository.save(basketItem);
         basketRepository.save(basketToCreate);
         return "added Basket";
     }
     public Basket updateBasket(Basket basketToUpdate){
         BasketItem newItem = new BasketItem();
+        newItem.setProduct(newItem.getProduct());
         newItem.setProductQuantity(newItem.getProductQuantity());
         basketRepository.save(basketToUpdate);
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        User user = ((CustomUserDetails) auth.getPrincipal()).getUser();
-//        Basket userBasket = user.getBasket();
-//        userBasket.setBasketItems(basketToUpdate.getBasketItems());
-//        basketRepository.save(userBasket);
+        basketItemRepository.save(newItem);
+
             return basketToUpdate;
     }
     public List<Basket> getBasket(){
