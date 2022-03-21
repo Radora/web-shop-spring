@@ -1,6 +1,8 @@
 package com.example.webshop_backend.api;
 
 import com.example.webshop_backend.model.Basket;
+import com.example.webshop_backend.model.BasketItem;
+import com.example.webshop_backend.repository.BasketRepository;
 import com.example.webshop_backend.service.BasketService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,7 @@ import java.util.Optional;
 public class BasketController {
 
     private final BasketService basketService;
+    private BasketRepository basketRepository;
 
     public BasketController(BasketService basketService) {
         this.basketService = basketService;
@@ -32,8 +35,7 @@ public class BasketController {
 
     @PostMapping("/basket/new")
     public String addProductToBasket(@RequestBody @Valid Basket basket) {
-        basketService.saveBasket(basket);
-        return "redirect:/basket";
+        return basketService.saveBasket(basket);
     }
 
     @DeleteMapping("/basket/{id}")
@@ -46,15 +48,15 @@ public class BasketController {
         return ResponseEntity.ok(response);
     }
 
-    @PutMapping("/basket/{id}")
-    public ResponseEntity<Basket> updateBasket(@PathVariable Integer id, @RequestBody @Valid Basket basketEdited) {
-        Basket basket = basketService.findById(id)
+    @PostMapping("/basket/update/{basket_id}")
+    public Basket updateBasket(@PathVariable Integer basket_id, @RequestBody @Valid Basket basketEdited) {
+        Basket basket = basketService.findById(basket_id)
+
         //User user = userRepository.findById(id)
-        .orElseThrow(() -> new NullPointerException("Basket does not exist with id :" + id));
-        basket.setBasketItems(basketEdited.getBasketItems()); //tut es ersetzten oder hinzufügen? // check if item is already in basket
-        //basket.setProductQuantity(basketEdited.getProductQuantity());
-        Basket updatedBasket = basketService.updateBasket(basket);
-        return ResponseEntity.ok(updatedBasket);
+        .orElseThrow(() -> new NullPointerException("Basket does not exist with id :" + basket_id));
+        BasketItem basketItem = new BasketItem();
+        //basket.setBasketItems(basketEdited.getBasketItems());
+        return basketService.updateBasket(basketEdited);
     }
 
 }

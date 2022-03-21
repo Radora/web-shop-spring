@@ -2,7 +2,14 @@ package com.example.webshop_backend.service;
 
 import com.example.webshop_backend.model.Basket;
 //import com.example.webshop_backend.model.Category;
+import com.example.webshop_backend.model.BasketItem;
+import com.example.webshop_backend.model.Product;
+import com.example.webshop_backend.model.User;
 import com.example.webshop_backend.repository.BasketRepository;
+import com.example.webshop_backend.security.CustomUserDetails;
+import com.sun.xml.bind.v2.TODO;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,18 +23,28 @@ public class BasketService {
     public BasketService(BasketRepository basketRepository) {
         this.basketRepository = basketRepository;
     }
-    public void saveBasket(Basket basketToCreate){
-        Basket basket = new Basket();
-        basket.setBasketItems(basketToCreate.getBasketItems());
-        basketRepository.save(basket);
+    public String saveBasket(Basket basketToCreate){
+        BasketItem basketItem = new BasketItem();
+        basketItem.setId(basketItem.getId());
+        basketItem.setProductQuantity(basketItem.getProductQuantity());
+        basketItem.setProduct(basketItem.getProduct());
+//        basketItem.setBasket(basketItem.getBasket());
+        basketRepository.save(basketToCreate);
+        return "added Basket";
     }
     public Basket updateBasket(Basket basketToUpdate){
-        basketToUpdate.setBasketItems(basketToUpdate.getBasketItems());
+        BasketItem newItem = new BasketItem();
+        newItem.setProductQuantity(newItem.getProductQuantity());
         basketRepository.save(basketToUpdate);
-        return basketToUpdate;
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        User user = ((CustomUserDetails) auth.getPrincipal()).getUser();
+//        Basket userBasket = user.getBasket();
+//        userBasket.setBasketItems(basketToUpdate.getBasketItems());
+//        basketRepository.save(userBasket);
+            return basketToUpdate;
     }
     public List<Basket> getBasket(){
-        return basketRepository.findAll();
+        return (List<Basket>) basketRepository.findAll();
     }
     public Optional<Basket> findById(int id){
         return basketRepository.findById(id);

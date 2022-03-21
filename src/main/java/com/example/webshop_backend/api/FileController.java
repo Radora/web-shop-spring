@@ -75,8 +75,4 @@ public class FileController {
                 .body(resource);
     }
 
-    @DeleteMapping("/deleteFile/{fileName:.+}")
-    public ResponseEntity<Resource> deleteFile(@PathVariable String fileName, HttpServletRequest request){
-
-    }
 }

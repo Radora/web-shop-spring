@@ -1,5 +1,6 @@
 package com.example.webshop_backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,7 @@ import javax.validation.constraints.Positive;
 public class BasketItem {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "item_id")
     private long id;
 
@@ -31,7 +33,8 @@ public class BasketItem {
     @JoinColumn(name = "basket_id")
     private Basket basket;
 
-
-
-
+    public BasketItem(BasketItem basketItem) {
+        this.product = basketItem.getProduct();
+        this.productQuantity = basketItem.getProductQuantity();
+    }
 }

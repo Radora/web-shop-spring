@@ -20,6 +20,9 @@ public class Product {
     @Column(name = "product_id")
     private int id;
 
+
+    private String imgRef;
+
     /*@ManyToOne
     @JoinColumn(name = "categoryid",insertable = false,updatable = false)*/
 

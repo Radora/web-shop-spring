@@ -1,5 +1,6 @@
 package com.example.webshop_backend.service;
 
+import com.example.webshop_backend.model.Basket;
 import com.example.webshop_backend.model.Product;
 import com.example.webshop_backend.repository.ProductRepository;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ public class ProductService {
         return product;
     }
     public List<Product> getProducts(){
-        return productRepository.findAll();
+        return (List<Product>)productRepository.findAll();
     }
     public Optional<Product> findById(int id){
         return productRepository.findById(id);
