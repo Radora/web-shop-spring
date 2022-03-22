@@ -1,8 +1,7 @@
-package com.example.webshop_backend.securingweb;
+package com.example.webshop_backend.security;
 
-import com.example.webshop_backend.service.CustomUserDetailService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -11,8 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -22,9 +20,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 
+@Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
 
     private final CustomUserDetailService customUserDetailService;
 
@@ -32,76 +30,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         this.customUserDetailService = customUserDetailService;
     }
 
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-
-
-        http // "/(home)" accessible by everybody
-                .authorizeRequests()
-                .antMatchers("/")
-                .permitAll();
-
-        http // "/(home)" accessible by everybody
-                .authorizeRequests()
-                .antMatchers("/register")
-                .permitAll();
-
-        http // "/(home)" accessible by everybody
-                .authorizeRequests()
-                .antMatchers("/registerSuccess")
-                .permitAll();
-
-        http // "/admin" accessible by user with ROLE_ADMIN
-                .authorizeRequests()
-                .antMatchers("/admin")
-                .access("hasRole('ADMIN')");
-
-
-        http // "/user" accessible by user with ADMIN or USER roles
-                .authorizeRequests()
-                .antMatchers("/user")
-                .hasAnyRole("ADMIN", "USER");
-
-        /*http // lock every route
-                .authorizeRequests()
-                .anyRequest()
-                .authenticated();*/
-        //commented out for testing purposes
-
-        http //CSRF abschalten
-                .csrf()
-                .disable();
-
-        http //Login einrichten
-                .formLogin()
-                .loginProcessingUrl("/login")
-                .permitAll();
-
-        http //Logout einrichten
-                .logout()
-                .logoutUrl("/logout")
-                .permitAll();
-        http
-                .addFilterAt(
-                        usernamePasswordAuthenticationFilter(),
-                        UsernamePasswordAuthenticationFilter.class
-                );
-        http
-                .exceptionHandling()
-                .accessDeniedHandler(
-                        (httpServletRequest, httpServletResponse, e) ->
-                                httpServletResponse.sendError(
-                                        HttpServletResponse.SC_FORBIDDEN
-                                )
-                )
-                .authenticationEntryPoint(
-                        new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)
-                );
-        http
-                .cors();
+    @Bean
+    public AuthenticationSuccessHandler authenticationSuccessHandler(){
+        return new CustomAuthenticationSuccessHandler();
     }
 
+    public UsernamePasswordAuthenticationFilter usernamePasswordAuthenticationFilter()
+            throws Exception {
+        JsonUsernamePasswordAuthenticationFilter authenticationFilter
+                = new JsonUsernamePasswordAuthenticationFilter();
+        authenticationFilter.setAuthenticationManager(authenticationManagerBean());
+        authenticationFilter.setAuthenticationSuccessHandler(authenticationSuccessHandler());
+        return authenticationFilter;
+    }
+
+    @Override
     @Bean
     public UserDetailsService userDetailsService() {
         return this.customUserDetailService;
@@ -124,12 +67,49 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.authenticationProvider(authenticationProvider());
     }
 
-    public UsernamePasswordAuthenticationFilter usernamePasswordAuthenticationFilter()
-            throws Exception {
-        JsonUsernamePasswordAuthenticationFilter authenticationFilter
-                = new JsonUsernamePasswordAuthenticationFilter();
-        authenticationFilter.setAuthenticationManager(authenticationManagerBean());
-        return authenticationFilter;
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+                .cors()
+
+        .and() // "/home" accessible by everybody
+                .authorizeRequests()
+                .antMatchers("/home", "/login", "/logout","/register")
+                .permitAll()
+        .and() // "/admin" accessible by user with ROLE_ADMIN
+                .authorizeRequests()
+                .antMatchers("/admin","/products/new","/users")
+                .access("hasRole('ROLE_ADMIN')")
+        .and()
+                .logout()
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+                .logoutSuccessHandler((httpServletRequest, httpServletResponse, authentication) -> {
+                    httpServletResponse.setStatus(HttpServletResponse.SC_OK);
+                })
+        .and() // lock every route
+                .authorizeRequests()
+                .anyRequest()
+                .authenticated()
+        .and()
+                .csrf()
+                .disable();
+        http
+                .addFilterAt(
+                        usernamePasswordAuthenticationFilter(),
+                        UsernamePasswordAuthenticationFilter.class
+                );
+        http
+                .exceptionHandling()
+                .accessDeniedHandler(
+                        (httpServletRequest, httpServletResponse, e) ->
+                                httpServletResponse.sendError(
+                                        HttpServletResponse.SC_FORBIDDEN
+                                )
+                )
+                .authenticationEntryPoint(
+                        new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)
+                );
     }
 
     @Bean

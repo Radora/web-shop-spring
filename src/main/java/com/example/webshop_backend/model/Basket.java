@@ -1,34 +1,45 @@
 package com.example.webshop_backend.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Positive;
 
-import java.util.List;
+import java.util.*;
 
 @Entity
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Table
 public class Basket {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "basket_id")
     private int id;
-    @OneToOne
-    @JoinColumn(name = "userid",insertable = false,updatable = false)
-    private User user;
 
-    @OneToMany
-    private List<Product> products;
+    @OneToMany(mappedBy = "basket", cascade = { CascadeType.PERSIST, CascadeType.REMOVE})
+    @JsonManagedReference
+    private List<BasketItem> basketItems = new ArrayList<>();
 
-    @Positive
-    @Min(1)
-    private int productQuantity;
+    public Basket() {
+    }
 
+    public Basket(List<BasketItem> basketItems) {
+        super();
+        this.basketItems = basketItems;
+    }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public List<BasketItem> getBasketItems() {
+        return basketItems;
+    }
+
+    public void setBasketItems(List<BasketItem> basketItems) {
+        this.basketItems = basketItems;
+    }
 }

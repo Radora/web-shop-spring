@@ -1,8 +1,10 @@
 package com.example.webshop_backend.api;
 
 import com.example.webshop_backend.model.User;
+import com.example.webshop_backend.repository.UserRepository;
 import com.example.webshop_backend.service.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -15,6 +17,8 @@ import java.util.Optional;
 public class UserController {
 
     private final UserService userService;
+    private  UserRepository userRepository;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public UserController(UserService userService) {
         this.userService = userService;
@@ -31,10 +35,14 @@ public class UserController {
         return userService.findById(id);
     }
 
+    @GetMapping("/users/getUsername/{username}")
+    public User getUsername(@PathVariable @Valid String username){
+        return userService.findByUsername(username);
+    }
+
     @PostMapping("/register")
-    public String addUser(@RequestBody @Valid User user){
-        userService.saveUser(user);
-        return "New user added!";
+    public  String addUser(@RequestBody @Valid User user) {
+        return userService.saveUser(user);
     }
 
     @DeleteMapping("/users/{id}")
@@ -55,6 +63,7 @@ public class UserController {
         user.setFirstname(userEdited.getFirstname());
         user.setSurname(userEdited.getSurname());
         user.setUsername(userEdited.getUsername());
+        user.setPassword(userEdited.getPassword());
         user.setEmail(userEdited.getEmail());
         user.setAddress(userEdited.getAddress());
         User updatedUser = userService.updateUser(user);
